@@ -1,5 +1,13 @@
 # Sistema de Gerenciamento de Biblioteca
 
+## Alunos
+Gleyson Tauan Araújo da Silva - 0184950
+José Lucas do Nascimento Ribeiro - 0185989
+Lucas Rafael da Silva Alves - 01849525
+Matheus Lopes Viana Carvalho - 01590039
+Silvan Guilherme de Barros Souza - 01864557
+
+
 ## 1. Tema e Objetivo
 
 O projeto consiste no desenvolvimento de uma aplicação web para o gerenciamento de uma biblioteca escolar ou pública, utilizando Node.js com o framework Express.js.

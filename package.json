@@ -1,0 +1,27 @@
+{
+  "name": "trabalho-av2-backend-uninassau",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/silvan-ADS/Trabalho-AV2-BackEnd-Uninassau.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/silvan-ADS/Trabalho-AV2-BackEnd-Uninassau/issues"
+  },
+  "homepage": "https://github.com/silvan-ADS/Trabalho-AV2-BackEnd-Uninassau#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

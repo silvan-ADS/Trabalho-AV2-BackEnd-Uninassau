@@ -1,19 +1,37 @@
+const livros = require("../models/livroModel");
+
+const listarLivros = (req, res) => {
+    res.json(livros)
+};
+
 const adicionarLivro = (req, res) => {
-    
-    const novoLivro = req.body;
+  const { titulo, autor, genero, anoPublicacao, quantidade, ISBN } = req.body;
 
-    if (!novoLivro.titulo || !novoLivro.autor) {
-        return res.status(400).json({ 
-            erro: "Atenção: O título e o autor do livro são obrigatórios!" 
-        });
-    }
+  if (!titulo || !autor) {
+    return res.status(400).json({
+      erro: "Atenção: O título e o autor do livro são obrigatórios!",
+    })
+  };
 
-    res.status(201).json({
-        mensagem: "Livro adicionado com sucesso!",
-        livroAdicionado: novoLivro
-    });
-}; 
+  const novoLivro = {
+    id: livros.length + 1,
+    titulo,
+    autor,
+    genero,
+    anoPublicacao,
+    quantidade,
+    ISBN
+  };
+
+  livros.push(novoLivro);
+
+  res.status(201).json({
+    mensagem: "Livro adicionado com sucesso!",
+    livroAdicionado: novoLivro,
+  })
+};
 
 module.exports = {
-    adicionarLivro
+  adicionarLivro,
+  listarLivros
 };

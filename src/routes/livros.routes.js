@@ -1,9 +1,13 @@
-const express = require('express');
+const express = require("express");
+
 const router = express.Router();
 
+const {
+  listarLivros,
+  adicionarLivro
+} = require("../controllers/livrosController");
 
-const livrosController = require('../controllers/livrosController'); 
-
-router.post('/', livrosController.adicionarLivro);
+router.post("/", adicionarLivro);
+router.get("/", listarLivros);
 
 module.exports = router;

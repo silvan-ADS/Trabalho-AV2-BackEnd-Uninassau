@@ -4,6 +4,10 @@ const livros = require("../models/livroModel");
 
 const usuarios = require("../models/usuarioModel");
 
+const listarEmprestimo = (req, res) => {
+    res.json(emprestimos)
+};
+
 const criarEmprestimo = (req, res) => {
     const {idLivro, idUsuario} = req.body
 
@@ -39,5 +43,6 @@ const criarEmprestimo = (req, res) => {
 };
 
 module.exports = {
-    criarEmprestimo
+    criarEmprestimo,
+    listarEmprestimo
 };

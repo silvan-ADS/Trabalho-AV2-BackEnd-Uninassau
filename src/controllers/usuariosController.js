@@ -1,5 +1,9 @@
 const usuarios = require("../models/usuarioModel");
 
+const listarUsuarios = (req, res) => {
+    res.json(usuarios)
+};
+
 const criarUsuario = (req, res) => {
     const {nome, email, telefone, matricula} = req.body
 
@@ -17,5 +21,6 @@ const criarUsuario = (req, res) => {
 }
 
 module.exports = {
-    criarUsuario
+    criarUsuario,
+    listarUsuarios
 }

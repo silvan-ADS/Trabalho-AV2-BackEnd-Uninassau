@@ -1,11 +1,7 @@
 const livros = require("../models/livroModel");
 
-const listarLivros = (req, res) => {
-  res.json(livros);
-};
-
 const adicionarLivro = (req, res) => {
-  const { titulo, autor, genero, anoPublicacao, quantidade } = req.body;
+  const { titulo, autor, genero, anoPublicacao, quantidade, ISBN } = req.body;
 
   if (!titulo || !autor) {
     return res.status(400).json({
@@ -19,6 +15,7 @@ const adicionarLivro = (req, res) => {
     genero,
     anoPublicacao,
     quantidade,
+    ISBN
   };
 
   livros.push(novoLivro);
@@ -30,6 +27,5 @@ const adicionarLivro = (req, res) => {
 };
 
 module.exports = {
-  adicionarLivro,
-  listarLivros,
+  adicionarLivro
 };

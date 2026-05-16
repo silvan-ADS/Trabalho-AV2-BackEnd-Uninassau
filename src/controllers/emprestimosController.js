@@ -1,48 +1,81 @@
-const emprestimos = require("../models/emprestimoModel");
+const supabase = require("../config/supabase");
 
-const livros = require("../models/livroModel");
+const listarEmprestimos = async (req, res) => {
+  const { data, error } = await supabase.from("emprestimos").select("*");
 
-const usuarios = require("../models/usuarioModel");
+  if (error) {
+    return res.status(500).json({
+      erro: error.message,
+    });
+  }
 
-const listarEmprestimo = (req, res) => {
-    res.json(emprestimos)
+  res.json(data);
 };
 
-const criarEmprestimo = (req, res) => {
-    const {idLivro, idUsuario} = req.body
+const criarEmprestimo = async (req, res) => {
+  const { id_livro, id_usuario, data_emprestimo, data_devolucao } = req.body;
 
-    const livro = livros.find(livro => livro.id == idLivro)
+  if (!id_livro || !id_usuario) {
+    return res.status(400).json({
+      erro: "Livro e usuário são obrigatórios",
+    });
+  }
 
-    if(!livro) {
-        return res.status(404).json({
-            erro: "Livro não encontrado"
-        })
-    }
+  // Buscar livro no banco
+  const { data: livro, error: erroLivro } = await supabase
+    .from("livros")
+    .select("*")
+    .eq("id", id_livro)
+    .single();
 
-    if(livro.quantidade <= 0) {
-        return res.status(400).json({
-            erro: "Livro indisponível"
-        })
-    }
+  if (erroLivro || !livro) {
+    return res.status(404).json({
+      erro: "Livro não encontrado",
+    });
+  }
 
-    const novoEmprestimo = {
-        id: emprestimos.length + 1,
-        idLivro,
-        idUsuario,
-        status: "emprestado"
-    }
+  // Verificar quantidade
+  if (livro.quantidade <= 0) {
+    return res.status(400).json({
+      erro: "Livro indisponível",
+    });
+  }
 
-    livro.quantidade--
+  // Criar empréstimo
+  const novoEmprestimo = {
+    id_livro,
+    id_usuario,
+    data_emprestimo,
+    data_devolucao,
+    status: "emprestado",
+  };
 
-    emprestimos.push(novoEmprestimo)
+  const { data, error } = await supabase
+    .from("emprestimos")
+    .insert([novoEmprestimo])
+    .select();
 
-    res.status(201).json({
-        mensagem: "Empréstimo realizado com sucesso",
-        emprestimo: novoEmprestimo
+  if (error) {
+    return res.status(500).json({
+      erro: error.message,
+    });
+  }
+
+  // Atualizar quantidade do livro
+  await supabase
+    .from("livros")
+    .update({
+      quantidade: livro.quantidade - 1,
     })
+    .eq("id", id_livro);
+
+  res.status(201).json({
+    mensagem: "Empréstimo realizado com sucesso",
+    emprestimo: data,
+  });
 };
 
 module.exports = {
-    criarEmprestimo,
-    listarEmprestimo
+  criarEmprestimo,
+  listarEmprestimos,
 };
